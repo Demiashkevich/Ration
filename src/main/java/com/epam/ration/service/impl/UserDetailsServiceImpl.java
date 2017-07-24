@@ -1,11 +1,9 @@
 package com.epam.ration.service.impl;
 
 import com.epam.ration.dao.UserRepository;
-import com.epam.ration.entity.Role;
 import com.epam.ration.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     "No user found with username: "+ email);
         }
         Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority(Role.USER.name()));
+//        roles.add(new SimpleGrantedAuthority(Role.USER.name()));
         return  new org.springframework.security.core.userdetails.User
                 (
                         user.getEmail(),

@@ -32,8 +32,13 @@ public class Product extends Entity implements Serializable {
     @Column(name = ("vitamin"), nullable = false)
     private double vitamin;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "products")
-    private Set<Ration> rations = new HashSet<Ration>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = ("product_recipe"),
+            joinColumns = {@JoinColumn(name = ("product_id"), nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = ("recipe_id"), nullable = false, updatable = false)}
+    )
+    private Set<Recipe> recipes = new HashSet<Recipe>();
 
     public long getProductId() {
         return productId;
@@ -91,12 +96,12 @@ public class Product extends Entity implements Serializable {
         this.vitamin = vitamin;
     }
 
-    public Set<Ration> getRations() {
-        return rations;
+    public Set<Recipe> getRecipes() {
+        return recipes;
     }
 
-    public void setRations(Set<Ration> rations) {
-        this.rations = rations;
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
     }
 
 }

@@ -14,6 +14,24 @@
     <script src="${pageContext.request.contextPath}/resources/js/jquery1111.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
     <link href="${pageContext.request.contextPath}/resources/owl-carousel/owl.carousel.css" rel="stylesheet">
+    <script>
+        var count = 0;
+        function createItem(clone, put){
+            var toClone = document.getElementById(clone);
+            var clonedNode = toClone.cloneNode(true);
+            var insertPoint = document.getElementById(put);
+            insertPoint.appendChild(clonedNode);
+            count=count+1;
+        }
+        function removeItem(crew){
+            if(count > 0){
+                var parent = crew.parentElement;
+                var parentNext = parent.parentElement;
+                parentNext.remove();
+                count=count-1;
+            }
+        }
+    </script>
 </head>
 <body>
 <main>
@@ -31,45 +49,42 @@
     </header>
     <section class="sc"><!--Section Create-->
         <img src="${pageContext.request.contextPath}/resources/image/header.jpg" alt="">
-        <h1 class="sc-title"><span class="sc-title-text fade-in latest">Create Your Account</span></h1>
+        <h1 class="sc-title"><span class="sc-title-text fade-in latest">Create Recipe</span></h1>
     </section>
     <section  class="si"><!--Sign In-->
-        <s:form name="registration" method="POST" commandName="registrationUserDto">
+        <s:form name="create" method="POST" commandName="recipeDto">
             <ul class="si-list">
                 <li class="si-item">
-                    <s:input class="form-input  size-input-sign-up" type="text" path="email" placeholder="name@example.com" autofocus="false" tabindex="1"/>
-                    <s:errors path="email"/>
+                    <s:input class="form-input  size-input-sign-up" type="text" path="name" placeholder="name" autofocus="false" tabindex="1"/>
+                    <s:errors path="name"/>
                 </li>
                 <li class="si-item">
-                    <s:input class="form-input size-input-sign-up" type="password" path="password" placeholder="password" tabindex="2"/>
-                    <s:errors path="password"/>
+                    <s:input class="form-input size-input-sign-up" type="text" path="description" placeholder="description" tabindex="2"/>
+                    <s:errors path="description"/>
                 </li>
                 <li class="si-item">
-                    <s:input class="form-input size-input-sign-up" type="password" path="matchingPassword" placeholder="confirm password" tabindex="3"/>
-                    <s:errors path="matchingPassword"/>
+                    <ul class="si-list-crew">
+                        <li class="si-item-crew-a">
+                            <div class="si-crew-ba" onclick="createItem('si-item-cc', 'si-item-crew-context')">Add Crew</div>
+                        </li>
+                        <li id="si-item-crew-context">
+                            <ul id="si-item-cc">
+                                <li class="si-item-crew">
+                                    <select>
+                                        <c:forEach items="${productsDto}" var="productDto">
+                                            <option value="${productDto.productId}">${productDto.name}</option>
+                                        </c:forEach>
+                                    </select>>
+                                </li>
+                                <li class="si-item-crew si-item-crew-br">
+                                    <div class="si-crew-button" onclick="removeItem(this)">Remove</div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li class="si-item">
-                    <s:input class="form-input size-input-sign-up" type="text" path="firstName" placeholder="first name" tabindex="4"/>
-                    <s:errors path="firstName"/>
-                </li>
-                <li class="si-item">
-                    <s:input class="form-input size-input-sign-up" type="text" path="lastName" placeholder="last name" tabindex="5"/>
-                    <s:errors path="lastName"/>
-                </li>
-                <li class="si-item">
-                    <s:input class="form-input size-input-sign-up" type="text" path="age" placeholder="age" tabindex="6"/>
-                    <s:errors path="age"/>
-                </li>
-                <li class="si-item">
-                    <s:input class="form-input size-input-sign-up" type="text" path="height" placeholder="height" tabindex="6"/>
-                    <s:errors path="height"/>
-                </li>
-                <li class="si-item">
-                    <s:input class="form-input size-input-sign-up" type="text" path="weight" placeholder="weight" tabindex="6"/>
-                    <s:errors path="weight"/>
-                </li>
-                <li class="si-item">
-                    <button class="button-custom" type="submit">Create</button>
+                    <button class="button-custom" type="submit">Save</button>
                 </li>
             </ul>
         </s:form>
@@ -96,4 +111,3 @@
 </footer>
 </body>
 </html>
-

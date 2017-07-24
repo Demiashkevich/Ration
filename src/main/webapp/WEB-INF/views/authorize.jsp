@@ -21,10 +21,10 @@
         <div id="cssmenu" class="align-center">
             <ul>
                 <li><a href="${pageContext.request.contextPath}/home"><span>Home</span></a></li>
-                <li class="active"><a href="${pageContext.request.contextPath}/product/products"><span>Products</span></a></li>
+                <li><a href="${pageContext.request.contextPath}/product/products"><span>Products</span></a></li>
                 <li><a href="${pageContext.request.contextPath}/recipe/recipes"><span>Recipes</span></a></li>
                 <li><a href="${pageContext.request.contextPath}/ration/rations"><span>Rations</span></a></li>
-                <li><a href="${pageContext.request.contextPath}/user/authorize"><span>Sign In</span></a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/user/authorize"><span>Sign In</span></a></li>
                 <li class="last"><a href="contact.html"><span>Contact</span></a></li>
             </ul>
         </div>

@@ -1,11 +1,11 @@
 package com.epam.ration.controller;
 
 import com.epam.ration.dto.ProductDto;
-import com.epam.ration.entity.Product;
 import com.epam.ration.response.ServiceResponse;
 import com.epam.ration.response.Status;
 import com.epam.ration.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -24,13 +23,45 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
+    @Qualifier("productServiceImpl")
     private IProductService productService;
 
     @RequestMapping(value = "/products", method = RequestMethod.GET)
     public ModelAndView products() {
-        ServiceResponse<List<Product>> response = productService.find();
+        ServiceResponse<List<ProductDto>> response = productService.find();
         if (response.getStatus() == Status.SUCCESS) {
-            return new ModelAndView("products", "productDto", response.getBody());
+            return new ModelAndView("products", "productsDto", response.getBody());
+        }
+        return new ModelAndView("home");
+    }
+
+    @RequestMapping(value = "/product/{productId}", method = RequestMethod.GET)
+    public ModelAndView product(@PathVariable long productId) {
+        ServiceResponse<ProductDto> response = productService.find(productId);
+        if(response.getStatus() == Status.SUCCESS) {
+            return new ModelAndView("product", "productDto", response.getBody());
+        }
+        return new ModelAndView("home");
+    }
+
+    @RequestMapping(value = "/update/{productId}", method = RequestMethod.GET)
+    public ModelAndView updateProduct(@PathVariable long productId) {
+        ServiceResponse<ProductDto> response = productService.find(productId);
+        if (response.getStatus() == Status.SUCCESS) {
+            return new ModelAndView("admin/update-product", "productDto", response.getBody());
+        }
+        return new ModelAndView("home");
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ModelAndView updateProduct(@ModelAttribute("productDto") @Valid ProductDto productDto,
+                                      BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("admin/update-product");
+        }
+        ServiceResponse<ProductDto> response = productService.update(productDto);
+        if (response.getStatus() == Status.SUCCESS) {
+            return new ModelAndView("redirect:/product/products");
         }
         return new ModelAndView("home");
     }
@@ -42,8 +73,7 @@ public class ProductController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView createProduct(@ModelAttribute("productDto") @Valid ProductDto productDto,
-                                      BindingResult result,
-                                      HttpServletRequest request) {
+                                      BindingResult result) {
         if (result.hasErrors()) {
             return new ModelAndView("admin/create-product");
         }
@@ -52,15 +82,14 @@ public class ProductController {
             result.addError(new FieldError("productDto", "name", response.getMessage()));
             return new ModelAndView("admin/create-product");
         }
-        String header = request.getHeader("referer");
-        return new ModelAndView("redirect:/" + request.getHeader("referer"));
+        return new ModelAndView("redirect:/product/products");
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     public ModelAndView deleteProduct(@PathVariable long id) {
         ServiceResponse<Void> response = productService.delete(id);
         if (response.getStatus() == Status.SUCCESS) {
-            return new ModelAndView("products");
+            return new ModelAndView("redirect:/product/products");
         }
         return new ModelAndView("product/{id}");
     }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -22,18 +23,45 @@ public class ProductServiceImpl implements IProductService {
     private ProductRepository productRepository;
 
     @Override
-    public ServiceResponse<List<Product>> find() {
+    public ServiceResponse<List<ProductDto>> find() {
         List<Product> products = productRepository.findAll();
-        if (products != null) {
-            return new ServiceResponse<>(products, Status.SUCCESS);
+        if (products == null) {
+            return new ServiceResponse<>(Status.FAILED);
+        }
+        List<ProductDto> productsDto = products.stream().map(mapping::productToProductDto).collect(Collectors.toList());
+        if (productsDto != null) {
+            return new ServiceResponse<>(productsDto, Status.SUCCESS);
         }
         return new ServiceResponse<>(Status.FAILED);
     }
 
     @Override
-    public ServiceResponse<Void> delete(final Long PRODUCT_ID) {
+    public ServiceResponse<ProductDto> find(final long PRODUCT_ID) {
+        Product product = productRepository.findOne(PRODUCT_ID);
+        if (product == null) {
+            return new ServiceResponse<>(Status.FAILED);
+        }
+        ProductDto productDto = mapping.productToProductDto(product);
+        if (productDto != null) {
+            return new ServiceResponse<>(productDto, Status.SUCCESS);
+        }
+        return new ServiceResponse<>(Status.FAILED);
+    }
+
+    @Override
+    public ServiceResponse<Void> delete(final long PRODUCT_ID) {
         productRepository.delete(PRODUCT_ID);
         return new ServiceResponse<>(Status.SUCCESS);
+    }
+
+    @Override
+    public ServiceResponse<ProductDto> update(ProductDto productDto) {
+        Product product = productRepository.save(mapping.productDtoToProduct(productDto));
+        if (product != null) {
+            productDto = mapping.productToProductDto(product);
+            return new ServiceResponse<>(productDto, Status.SUCCESS);
+        }
+        return new ServiceResponse<>(Status.FAILED);
     }
 
     @Override

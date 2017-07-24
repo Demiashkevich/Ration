@@ -37,8 +37,8 @@
             <article class="single-post zerogrid">
               <div class="row wrap-post"><!--Start Box-->
                 <div class="entry-header">
-                  <jsp:useBean id="productDto" class="com.epam.ration.dto.ProductDto" scope="request"/>
-                  <h2 class="entry-title"><c:out value="${productDto.name}"/></h2>
+                  <jsp:useBean id="recipeDto" class="com.epam.ration.dto.RecipeDto" scope="request"/>
+                  <h2 class="entry-title"><c:out value="${recipeDto.name}"/></h2>
                   <span class="cat-links"><a href="#">BUSINESS</a>, <a href="#">LIFESTYLE</a></span>
                 </div>
                 <div class="post-thumbnail-wrap">

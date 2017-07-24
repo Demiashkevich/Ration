@@ -1,6 +1,5 @@
 package com.epam.ration.dto;
 
-import com.epam.ration.entity.Role;
 import com.epam.ration.validation.Email;
 import com.epam.ration.validation.PasswordMatches;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -44,9 +43,6 @@ public class RegistrationUserDto {
     @Min(10)
     @Max(150)
     private Short age;
-
-    @NotNull
-    private Role role = Role.USER;
 
     public String getEmail() {
         return email;
@@ -112,11 +108,4 @@ public class RegistrationUserDto {
         this.age = age;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }

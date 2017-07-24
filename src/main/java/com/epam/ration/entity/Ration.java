@@ -20,13 +20,6 @@ public class Ration extends Entity implements Serializable {
     @Column(name = ("rating"))
     private double rating;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = ("ration_product"),
-            joinColumns = {@JoinColumn(name = ("ration_id"), nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = ("product_id"), nullable = false, updatable = false)}
-    )
-    private Set<Product> products = new HashSet<Product>();
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = ("rations"))
     private Set<Recipe> recipes = new HashSet<Recipe>();
 
@@ -55,14 +48,6 @@ public class Ration extends Entity implements Serializable {
 
     public void setRating(double rating) {
         this.rating = rating;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
     }
 
     public Set<RationComment> getRationComments() {

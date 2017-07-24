@@ -35,9 +35,9 @@ public class User extends Entity implements Serializable {
     @Column(name = ("age"), nullable = false)
     private short age;
 
-    @Column(name = ("role"), nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private Role role;
+//    @Column(name = ("role"), nullable = false)
+//    @Enumerated(value = EnumType.STRING)
+//    private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = ("ration"))
     private Set<RationComment> rationComments = new HashSet<RationComment>();
@@ -125,12 +125,12 @@ public class User extends Entity implements Serializable {
         this.recipeComments = recipeComments;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
+//    public Role getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(Role role) {
+//        this.role = role;
+//    }
 
 }

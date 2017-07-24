@@ -30,6 +30,9 @@ public class Recipe extends Entity implements Serializable {
     )
     private Set<Ration> rations = new HashSet<Ration>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = ("recipes"))
+    private Set<Product> products = new HashSet<Product>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = ("recipe"))
     private Set<RecipeComment> recipeComments = new HashSet<RecipeComment>();
 
@@ -79,5 +82,13 @@ public class Recipe extends Entity implements Serializable {
 
     public void setRecipeComments(Set<RecipeComment> recipeComments) {
         this.recipeComments = recipeComments;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }

@@ -2,9 +2,9 @@ package com.epam.ration.converter;
 
 import com.epam.ration.dto.ProductDto;
 import com.epam.ration.entity.Product;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
+
+import java.util.List;
 
 @Mapper
 public interface IProductConverter {
@@ -16,6 +16,7 @@ public interface IProductConverter {
             @Mapping(target = ("entity.fat"), source = ("fat")),
             @Mapping(target = ("entity.vitamin"), source = ("vitamin"))
     })
+    @Named("toProductDto")
     public Product productDtoToProduct(ProductDto productDto);
 
     @Mappings({
@@ -26,6 +27,9 @@ public interface IProductConverter {
             @Mapping(target = ("dto.fat"), source = ("fat")),
             @Mapping(target = ("dto.vitamin"), source = ("vitamin"))
     })
-    public Product productToProductDto(Product product);
+    public ProductDto productToProductDto(Product product);
+
+    @IterableMapping(qualifiedByName = ("toProduct"))
+    public List<Product> productDtoListToProductList(List<ProductDto> productsDto);
 
 }

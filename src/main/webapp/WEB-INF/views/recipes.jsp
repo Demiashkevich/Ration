@@ -20,8 +20,8 @@
     <div id="cssmenu" class="align-center">
       <ul>
         <li><a href="${pageContext.request.contextPath}/home"><span>Home</span></a></li>
-        <li class="active"><a href="${pageContext.request.contextPath}/product/products"><span>Products</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/recipe/recipes"><span>Recipes</span></a></li>
+        <li><a href="${pageContext.request.contextPath}/product/products"><span>Products</span></a></li>
+        <li class="active"><a href="${pageContext.request.contextPath}/recipe/recipes"><span>Recipes</span></a></li>
         <li><a href="${pageContext.request.contextPath}/ration/rations"><span>Rations</span></a></li>
         <li><a href="${pageContext.request.contextPath}/user/authorize"><span>Sign In</span></a></li>
         <li class="last"><a href="contact.html"><span>Contact</span></a></li>
@@ -31,34 +31,38 @@
   <section id="container">
     <div class="wrap-container">
       <!-----------------Content-Box-------------------->
-        <div id="main-content" class="zerogrid">
-          <div class="wrap-content">
-            <jsp:useBean id="productsDto" scope="request" type="java.util.List"/>
-            <c:forEach var="i" begin="0" end="${fn:length(productsDto)}" step="3">
-              <div class="row">
-                <c:set var="end" value="${i+2}"/>
-                <c:forEach items="${productsDto}" var="productDto" begin="${i}" end="${end}">
-                  <div class="col-1-3">
-                    <div class="wrap-col">
-                      <article>
-                        <div class="post-thumbnail-wrap">
-                          <a href="${pageContext.request.contextPath}/product/product/${productDto.productId}" class="portfolio-box">
-                            <img src="${pageContext.request.contextPath}/resources/image/11.jpg" alt="">
-                            <div class="portfolio-box-second">
-                              <img src="${pageContext.request.contextPath}/resources/image/1.jpg" alt="">
-                            </div>
-                          </a>
+      <div id="main-content" class="zerogrid">
+        <div class="wrap-content">
+          <jsp:useBean id="recipesDto" scope="request" type="java.util.List"/>
+          <c:forEach var="i" begin="0" end="${fn:length(recipesDto)}" step="3">
+            <div class="row">
+              <c:set var="end" value="${i+2}"/>
+              <c:forEach items="${recipesDto}" var="recipeDto" begin="${i}" end="${end}">
+                <div class="col-1-3">
+                  <div class="wrap-col">
+                    <article>
+                      <div class="post-thumbnail-wrap">
+                        <a href="${pageContext.request.contextPath}/recipe/recipe/${recipeDto.recipeId}" class="portfolio-box">
+                          <img src="${pageContext.request.contextPath}/resources/image/11.jpg" alt="">
+                          <div class="portfolio-box-second">
+                            <img src="${pageContext.request.contextPath}/resources/image/1.jpg" alt="">
+                          </div>
+                        </a>
+                      </div>
+                      <div class="entry-header ">
+                        <h3 class="entry-title"><c:out value="${recipeDto.name}"/></h3>
+                        <div class="l-tags">
+                          <a href="${pageContext.request.contextPath}/recipe/update/${recipeDto.recipeId}">Update</a>
+                          /
+                          <a href="${pageContext.request.contextPath}/recipe/delete/${recipeDto.recipeId}">Delete</a>
                         </div>
-                        <div class="entry-header ">
-                          <h3 class="entry-title"><c:out value="${productDto.name}"/></h3>
-                          <div class="l-tags"><a href="${pageContext.request.contextPath}/product/update/${productDto.productId}">Update</a> / <a href="${pageContext.request.contextPath}/product/delete/${productDto.productId}">Delete</a></div>
-                        </div>
-                      </article>
-                    </div>
+                      </div>
+                    </article>
                   </div>
-                </c:forEach>
-              </div>
-            </c:forEach>
+                </div>
+              </c:forEach>
+            </div>
+          </c:forEach>
         </div>
       </div>
     </div>
